@@ -85,14 +85,11 @@ const HomePage = () => {
     release_date: car.release_date,
   }));
 
-  const getData =
-    useCallback(
-      async () => {
-    const res = await apiService.get(`/cars?page=${page}`);
+  const getData = useCallback(async () => {
+    const res = await apiService.get(`/cars?page=${page}&limit=10`);
     setCars(res.data.cars);
-    setTotalPages(res.data.total);
-      }
-      , [page]);
+    setTotalPages(res.total);
+  }, [page]);
 
   useEffect(() => {
     getData();
@@ -128,7 +125,7 @@ const HomePage = () => {
           rows={rows}
           rowCount={5 * totalPages}
           columns={columns}
-          rowsPerPageOptions={[]}
+          rowsPerPageOptions={[5]}
           components={{
             Pagination: () => (
               <Pagination
